@@ -1,0 +1,71 @@
+{% load static %}
+<link rel="stylesheet" href=" {% static 'estilo1.css' %} ">
+<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'base.js' %}"></script>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/icons8_spa_flower_50px.png' %}"
+      alt="Carrito">Florería los
+    Tilines</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <a class="compra" href="{% url 'carrito' %}"><img src="{% static 'images/icons8_shopping_cart_50px.png' %}"
+        alt="Carrito">Carrito</a>
+    {%if user.is_authenticated%}
+    <a class="historial" href="{% url 'historial' %}"><img src="{%static 'images/icons8_Order_History_50px.png'%}"
+        alt="Historial">Mis Compras</a>
+    {%else%}
+    <a class="historial" href="{% url 'login' %}"><img src="{%static 'images/icons8_Order_History_50px.png'%}"
+        alt="Historial">Historial de compras</a>
+    {%endif%}
+    <a class="historial" href="{% url 'catalogo' %}"><img src="{%static 'images/icons8_moleskine_50px.png'%}"
+        alt="catalogo">Catalogo</a>
+    {% if user.is_authenticated %}
+    <a class="welcome">Bienvenido, {{ user.username }}!</a>
+    <a class="cerrar" href="{% url 'logout' %}">Cerrar Sesion</a>
+    {% if request.user.is_staff%}
+    <a class="cerrar" href="{% url 'admin:index' %}">Admin</a>
+    {%endif%}
+    {%else%}
+    <a class="login" href="{% url 'login' %}"><img src="{% static 'images/icons8_male_user_50px.png'%}"
+        alt="Login">Login</a>
+    {%endif%}
+  </div>
+</nav>
+{% block content %}
+{% endblock %}
+<footer class="footer">
+  <div class="container-footer">
+    <div class="row-footer">
+      <div class="col-md-5 enlace">
+        <h3>Enlaces útiles</h3>
+        <a href="{% url 'index' %}">Inicio</a>
+        <a href="{% url 'sobrenosotros' %}">Acerca de nosotros</a>
+        <a href="{% url 'carrito' %}">Productos</a>
+      </div>
+      <div class="col-md-6 contacto">
+        <h3>Contacto</h3>
+        <a href="https://goo.gl/maps/mrQLVKzwWvurGkWk7"> <i class="fa fa-map-marker"></i> Calle Tilin #420, TilinCity,
+          Tilin</a>
+        <a> <i class="fa fa-phone"></i> +56 9 2393 7128 | +56 9 3349 1829</a>
+        <a> <i class="fa fa-envelope"></i> contacto@florestilin.cl</a>
+        <form method="post" action="{% url 'suscribir' %}">
+          {% csrf_token %}
+          <label for="correo">correo:</label>
+          <input type="email" id="correo" name="correo" required>
+          <button type="submit">Suscribir</button>
+          <button type="submit" value="Eliminar" ><a href="{% url 'eliminar_usuario' request.user %}">¿Desuscribirse?</a></button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="copy">
+    <p>&copy; 2023 TilinCorp | Todos los derechos reservados | All rights reserved |</p>
+    </div>
+      <div class="diseño">
+        <p id="diseño">Diseñado por Drakkzy <a href="https://www.instagram.com/drakkzy/"><img src="{% static 'images/instagram-icon.png' %}" alt=""></a></p>
+      </div>
+</footer>
